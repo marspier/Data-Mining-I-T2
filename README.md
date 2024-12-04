@@ -68,50 +68,25 @@ Having this in mind, I would say that  a preprocessing goal would be to encode c
 2.  Identify the initial data set variables that you will use to perform the analysis for the prediction question from part A1, and group each variable as continuous or categorical. 
 
 
-Categorical Variable 
-Continuous Variable 
-Email
-Age
-Yearly_equip_failure
-Income
-DummyGender
-Outage_sec_perweek
-DummyChurn
-Tenure
-DummyMarital
-MonthlyCharge
-DummyTechie
-Badwidth_GB_Year
-DummyContract
-Children
-DummyPort_modem
-
-
-DummyTablet
-
-
-DummyPhone
-
-
-DummyMultiple
-
-
-DummyOnlineSecurity
-
-
-DummyOnlineBackup
-
-
-DummyDeviceProtection
-
-
-DummyTechieSupport
-
-
-DummyStreamingTV
-
-
-DummyStreamingMovies
+| Categorical Variables       | Continuous Variables      |
+|-----------------------------|--------------------------|
+| Email                       | Age                      |
+| Yearly_equip_failure        | Income                   |
+| DummyGender                 | Outage_sec_perweek       |
+| DummyChurn                  | Tenure                   |
+| DummyMarital                | MonthlyCharge            |
+| DummyTechie                 | Bandwidth_GB_Year        |
+| DummyContract               | Children                 |
+| DummyPort_modem             |                          |
+| DummyTablet                 |                          |
+| DummyPhone                  |                          |
+| DummyMultiple               |                          |
+| DummyOnlineSecurity         |                          |
+| DummyOnlineBackup           |                          |
+| DummyDeviceProtection       |                          |
+| DummyTechieSupport          |                          |
+| DummyStreamingTV            |                          |
+| DummyStreamingMovies        |                          |
 
 
 
