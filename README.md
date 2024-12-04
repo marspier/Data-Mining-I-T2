@@ -92,16 +92,6 @@ Having this in mind, I would say that  a preprocessing goal would be to encode c
 
 
 
-
-
-
-
-
-
-
-
-3.  Explain the steps used to prepare the data for the analysis. Identify the code segment for each step.
-
 1.I imported the libraries and packages 
 import numpy as np
 import pandas as pd
@@ -120,151 +110,10 @@ from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import learning_curve
 
 
-2. I then Imported the data to use the Churn dataset
-#Import data 
-df = pd.read_csv('churn_clean.csv')
-3. I then checked the information to see which variables I may not need and which variables are categorical or numerical
-# Check dataset information
-df.info()
-4. I then checked for missing values
-# Check for missing values
-df.isnull().sum()
-5. I removed unnecessary columns  
-# Remove unnecessary columns
-df=df.drop(columns=['CaseOrder','Customer_id','Interaction','UID','Lat','Lng','Zip','State','County','Area','City','Population','Job','TimeZone','Contacts','PaperlessBilling','PaymentMethod','Item1','Item2','Item3','Item4','Item5','Item6','Item7','Item8'])
-6. Looked at the data types, to know which variables are categorical and which are numerical
-# Check column data types
-print(df.dtypes)
-7. Detect any outliers 
-# Visualize selected continuous variables using boxplots
-selected_variables = ['Children', 'Age', 'Outage_sec_perweek', 'Yearly_equip_failure']
-plt.figure(figsize=(16,14))
-sns.boxplot(data=df[selected_variables], orient='v', palette='Set2')
-plt.title('Boxplots of Selected Continuous Variables')
-plt.xlabel('Values')
-plt.ylabel('Variables')
-plt.show()
-
-selected_variables = ['Email','Tenure','MonthlyCharge','Bandwidth_GB_Year']
-plt.figure(figsize=(18,20))
-sns.boxplot(data=df[selected_variables], orient='v', palette='Set2')
-plt.title('Boxplots of Selected Continuous Variables')
-plt.xlabel('Values')
-plt.ylabel('Variables')
-plt.show()
-8. I then handled the outliers since I don’t want many outliers for the decision tree method
-# Detect and remove outliers using z-score
-columns = ['Children', 'Outage_sec_perweek', 'Yearly_equip_failure', 'Tenure', 'MonthlyCharge', 'Bandwidth_GB_Year','Email', 'Age']
-threshold = 3
-z_scores = np.abs((df[columns] - df[columns].mean()) / df[columns].std())
-trimmed_df = df[(z_scores < threshold).all(axis=1)]
-print("Original DataFrame shape:", df.shape)
-print("Trimmed DataFrame shape:", trimmed_df.shape)
-9. I then checked for any duplicate values
-# Check for duplicate rows
-df.duplicated()
-10. I didn’t find any duplicate values, therefore I then started my univariate analysis
-# Explore distribution of 'InternetService'
-Internet_Service = df['InternetService'].value_counts()
-print(Internet_Service)
-plt.bar(Internet_Service.index, Internet_Service.values)
-plt.xlabel('InternetService')
-plt.ylabel('Count')
-plt.title('Type of Internet Service')
-plt.show()
 
 
-
-
-
-
-
-
-
-
-
-
-
-# Explore distribution of 'TechSupport'
-Support = df['TechSupport'].value_counts()
-print(Support)
-plt.bar(Support.index, Support.values)
-plt.xlabel('TechSupport')
-plt.ylabel('Count')
-plt.title('TechSupport add-on')
-plt.show()
-
-
-# Explore distribution of ‘Techie’
-Techie=df['Techie'].value_counts()
-print(Techie)
-Techie=df['Techie'].value_counts()
-plt.bar(Support.index,Support.values)
-plt.xlabel('Techie')
-plt.ylabel('Count')
-plt.title('Tech savvy')
-plt.show()
-
-# Explore distribution of ‘StreamingTV’
-StreamingTV=df['StreamingTV'].value_counts()
-print(StreamingTV)
-StreamingTV=df['StreamingTV'].value_counts()
-plt.bar(Support.index,Support.values)
-plt.xlabel('StreamingTV')
-plt.ylabel('Count')
-plt.title('StreamingTV')
-plt.show()
-
-# Explore distribution of ‘StreamingMovies’
-StreamingMovies=df['StreamingMovies'].value_counts()
-print(StreamingMovies)
-StreamingMovies=df['StreamingMovies'].value_counts()
-plt.bar(Support.index,Support.values)
-plt.xlabel('StreamingMovies')
-plt.ylabel('Count')
-plt.title('StreamingMovies')
-plt.show()
-
-11. I  performed  bivariate analysis 
-# Explore distribution of ‘InternetService with ‘TechSupport’
-cross_tab=pd.crosstab(df['InternetService'],
-df['TechSupport'])
-cross_tab.plot.bar()
-plt.show()
-
-# Explore distribution of ‘InternetService with ‘Techie’
-cross_tab=pd.crosstab(df['InternetService'],
-df['Techie'])
-cross_tab.plot.bar()
-plt.show()
-
-
-
-
-
-
-
-
-
-
-
-
-# Explore distribution of ‘InternetService’ with ‘StreamingTV’
-cross_tab=pd.crosstab(df['InternetService'],
-df['StreamingTV'])
-cross_tab.plot.bar()
-plt.show()
-
-# Explore distribution of ‘InternetService’ with ‘StreamingMovies’
-cross_tab=pd.crosstab(df['InternetService'],
-df['StreamingMovies'])
-cross_tab.plot.bar()
-plt.show()
-
-
-
-12.  Encoded my categorical variables into dummy variables to include them in analysis that are only compatible with numerical data. 
-# Encode categorical variables into dummy variables
+ Encoded my categorical variables into dummy variables to include them in analysis that are only compatible with numerical data. 
+Encode categorical variables into dummy variables
 df['DummyChurn'] = [1 if v == 'Yes' else 0 for v in df['Churn']]
 df['DummyGender'] = [1 if v == 'Male' else 0 for v in df['Gender']]
 df['DummyTechie'] = [1 if v == 'Yes' else 0 for v in df['Techie']]
@@ -291,7 +140,7 @@ df=df.drop(columns=['Churn','Gender','Marital','Techie','Contract','Port_modem',
 
 
 14. I  organized my dataset and added the dependent variable at the end. 
-# Select final set of features
+ Select final set of features
 df = df[['Children', 'Age', 'Income', 'Outage_sec_perweek','Email',
 'Yearly_equip_failure','Tenure','MonthlyCharge','Bandwidth_GB_Year','DummyGender','DummyChurn','DummyTechie','DummyContract', 'DummyPort_modem', 'DummyTablet', 
 'DummyPhone','DummyMultiple', 'DummyOnlineSecurity', 
@@ -304,7 +153,7 @@ df = df[['Children', 'Age', 'Income', 'Outage_sec_perweek','Email',
 
 
 
-#Create Heatmap
+Create Heatmap
 
 
 selected_variables = ['Children', 'Age','Income','Outage_sec_perweek','Email','Yearly_equip_failure',
@@ -323,7 +172,7 @@ plt.show()
 
 16. I separated the independent variables from the dependent variable. 
 
-#Separate X and Y values 
+Separate X and Y values 
 X = df[['Children', 'Age', 'Income', 'Outage_sec_perweek', 'Email', 'Yearly_equip_failure',
 'Tenure', 'MonthlyCharge', 'Bandwidth_GB_Year', 'DummyGender', 'DummyChurn', 'DummyMarital', 'DummyTechie','DummyContract', 'DummyPort_modem', 'DummyTablet', 
 'DummyPhone', 'DummyMultiple', 'DummyOnlineSecurity','DummyOnlineBackup', 
@@ -333,11 +182,11 @@ y = df['TargetInternetService']
 
 
 17. I split the data into training and testing 
-#Train_Test_split
+Train_Test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 18. I finally saved the training and testing sets as CSV files. 
-#save training and testing sets
+save training and testing sets
 X_train.to_csv('X_train1.csv', index=False)
 X_test.to_csv('X_test1.csv', index=False)
 y_train.to_csv('y_train1.csv', index=False)
@@ -357,227 +206,6 @@ I used the prepared dataset and I split the data into training and testing sets.
 I finished my analysis with visuals such as the learning curve for the decision tree, and the plot tree as well as the feature importance bar chart. 
 
 
-3.  Provide the code used to perform the prediction analysis from part D2.
-# Check the distribution of the target variable in training and testing sets
-print(y_train.value_counts(normalize=True))
-print(y_test.value_counts(normalize=True))
-
-2    0.438625
-1    0.345750
-0    0.215625
-Name: TargetInternetService, dtype: float64
-2    0.4495
-1    0.3485
-0    0.2020
-Name: TargetInternetService, dtype: float64
-
-# Feature selection
-alpha=5
-k=15
-selector=SelectKBest(score_func=f_classif,k=k)
-X_selected=selector.fit_transform(X_train,y_train)
-selected_indices=selector.get_support(indices=True)
-all_pvalues=selector.pvalues_
-all_feature_names=X_train.columns
-selected_feature_names=all_feature_names[selected_indices]
-
-# Print selected features and their p-values
-for feature_name, p_value in zip(selected_feature_names, selector.pvalues_[selected_indices]):
-   
-
-    print("Feature:", feature_name)
-    print("P-value:", p_value)
-
-
-
-
-# Drop irrelevant columns from the DataFrame
-df=df.drop(columns=['Children', 'Age','Income','Outage_sec_perweek','Email','Yearly_equip_failure',
-'Tenure','DummyGender','DummyMarital','DummyTechie',
-'DummyPort_modem','DummyTablet','DummyPhone',
-'DummyOnlineSecurity','DummyOnlineBackup','DummyDeviceProtection','DummyTechSupport',
-'DummyStreamingMovies'])
-
-df.info()
-df.to_csv('Prepared_2092df.csv', index=False)
-
-
-# Split data into training and testing sets
-
-X = df[['MonthlyCharge','DummyChurn','Bandwidth_GB_Year', 'DummyContract', 'DummyMultiple', 'DummyStreamingTV']]
-y = df['TargetInternetService']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-
-# Train a decision tree classifier
-clf = DecisionTreeClassifier(random_state=42)
-clf.fit(X_train, y_train)
-y_train_pred = clf.predict(X_train)
-
-# Compute training set metrics
-accuracy_train = accuracy_score(y_train, y_train_pred)
-precision_train = precision_score(y_train, y_train_pred, average='weighted')
-recall_train = recall_score(y_train, y_train_pred, average='weighted')
-f1_train = f1_score(y_train, y_train_pred, average='weighted')
-conf_matrix_train = confusion_matrix(y_train, y_train_pred)
-mse_train = mean_squared_error(y_train, y_train_pred)
-rmse_train = np.sqrt(mse_train)
-
-# Print training set
-print("Training Set Metrics:")
-print("Accuracy:", accuracy_train)
-print("Precision:", precision_train)
-print("Recall:", recall_train)
-print("F1-score:", f1_train)
-print("Confusion Matrix:")
-print(conf_matrix_train)
-print("Mean Squared Error (Training set):", mse_train)
-print("Root Mean Squared Error (Training set):", rmse_train)
-
-
-
-# Perform initial cross-validation
-
-
-
-
-# Hyperparameter tuning using grid search
-param_grid = {
-    'max_depth': [5, 10, 15, 20],
-    'min_samples_split': [2, 5, 10],
-    'min_samples_leaf': [1, 5, 10, 20]
-}
-
-grid_search = GridSearchCV(estimator=DecisionTreeClassifier(random_state=42), param_grid=param_grid, cv=5)
-
-
-grid_search.fit(X_train, y_train)
-
-
-print("Best parameters:", grid_search.best_params_)
-
-# Train a decision tree classifier with the best hyperparameters
-best_tree_clf = DecisionTreeClassifier(max_depth=20, min_samples_leaf=1, min_samples_split=10, random_state=42)
-best_tree_clf.fit(X_train, y_train)
-
-Best parameters: {'max_depth': 20, 'min_samples_leaf': 1, 'min_samples_split': 2}
-
-
-#Decision Tree classifier
-best_tree_clf = DecisionTreeClassifier(max_depth=20, min_samples_leaf=1, min_samples_split=10, random_state=42)
-best_tree_clf.fit(X_train, y_train)
-
-DecisionTreeClassifier(max_depth=20, min_samples_split=10, random_state=42)
-
-# Evaluate the performance of the trained model on the test set
-y_pred = best_tree_clf.predict(X_test)
-accuracy = best_tree_clf.score(X_test, y_test)
-precision = precision_score(y_test, y_pred, average='weighted')
-recall = recall_score(y_test, y_pred, average='weighted')
-f1 = f1_score(y_test, y_pred, average='weighted')
-conf_matrix = confusion_matrix(y_test, y_pred)
-#print testing set 
-print("Accuracy:", accuracy)
-print("Precision:", precision)
-print("Recall:", recall)
-print("F1-score:", f1)
-print("Confusion Matrix:")
-print(conf_matrix)
-
-
-
-# Perform cross-validation with the best model
-cv_scores = cross_val_score(best_tree_clf, X_train, y_train, cv=5)
-
-mean_cv_score = np.mean(cv_scores)
-std_cv_score = np.std(cv_scores)
-
-print("Cross-validation scores:", cv_scores)
-print("Mean CV score:", mean_cv_score)
-print("Standard deviation of CV scores:", std_cv_score)
-
-
-
-#Plot Learning Curve
-cv = 5
-train_sizes, train_scores, test_scores = learning_curve(
-    best_tree_clf, X_train, y_train, cv=cv, n_jobs=-1, train_sizes=np.linspace(0.1, 1.0, 5)
-)
-train_scores_mean = np.mean(train_scores, axis=1)
-train_scores_std = np.std(train_scores, axis=1)
-test_scores_mean = np.mean(test_scores, axis=1)
-test_scores_std = np.std(test_scores, axis=1)
-
-# Learning Curve visual for Decision Tree
-plt.figure()
-plt.title("Learning Curve for Decision Tree")
-plt.xlabel("Training examples")
-plt.ylabel("Score")
-plt.grid()
-
-plt.fill_between(train_sizes, train_scores_mean - train_scores_std,
-                 train_scores_mean + train_scores_std, alpha=0.1, color="r")
-plt.fill_between(train_sizes, test_scores_mean - test_scores_std,
-                 test_scores_mean + test_scores_std, alpha=0.1, color="g")
-plt.plot(train_sizes, train_scores_mean, 'o-', color="r", label="Training score")
-plt.plot(train_sizes, test_scores_mean, 'o-', color="g", label="Cross-validation score")
-
-plt.legend(loc="best")
-plt.show()
-
-
-
-
-# Compute and print Mean Squared Error and Root Mean Squared Error
-mse = mean_squared_error(y_test, y_pred)
-rmse = np.sqrt(mse)
-print("Mean Squared Error:", mse)
-print("Root Mean Squared Error:", rmse)
-
-
-#Visual of decision tree 
-
-
-
-
-
-
-
-
-
-
-#Visual for feature importances 
-importance = clf.feature_importances_
-indices = np.argsort(importance)[::-1]
-
-plt.figure(figsize=(10, 6))
-plt.title("Feature Importances")
-plt.bar(range(X.shape[1]), importance[indices], align="center")
-plt.xticks(range(X.shape[1]), X.columns[indices], rotation=90)
-plt.xlim([-1, X.shape[1]])
-plt.show()
-
-
-
-
-# A visual of another decision tree with a different max depth 
-
-clf_visual = DecisionTreeClassifier(max_depth=3, random_state=42)
-clf_visual.fit(X_train, y_train)
-
-
-plt.figure(figsize=(20, 10))
-plot_tree(clf_visual, filled=True, feature_names=X.columns, class_names=['DSL', 'Fiber optic', 'None'])
-plt.title("Decision Tree Visualization with max_depth=3")
-plt.show()
-
-
-
-
-
-Part V: Data Summary and Implications
-
-E.  Summarize your data analysis by doing the following:
 
 1.  Explain the accuracy and the mean squared error (MSE) of your prediction model.
 
