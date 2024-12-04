@@ -25,6 +25,7 @@ The Decision Tree method analyzes the dataset by evaluating different  factors, 
 2.  Summarize one assumption of the chosen prediction method.
 
 One assumption is that decision trees are non-parametric. According to IBM, decision trees operate as a non-parametric algorithm, suitable for both classification and regression, and structured with a hierarchy of nodes and branches (IBM, n.d.). This means that decision trees make decisions based entirely on the data provided, rather than on prior assumptions.
+
 3.  List the packages or libraries you have chosen for Python or R, and justify how each item on the list supports the analysis.
 import numpy as np:Numerical computations
 import pandas as pd:Provides dataframe 
