@@ -26,34 +26,20 @@ The Decision Tree method analyzes the dataset by evaluating different  factors, 
 
 One assumption is that decision trees are non-parametric. According to IBM, decision trees operate as a non-parametric algorithm, suitable for both classification and regression, and structured with a hierarchy of nodes and branches (IBM, n.d.). This means that decision trees make decisions based entirely on the data provided, rather than on prior assumptions.
 3.  List the packages or libraries you have chosen for Python or R, and justify how each item on the list supports the analysis.
-import numpy as np
-Numerical computations
-import pandas as pd
-Provides dataframe 
-import seaborn as sns
-Create plots
-from sklearn.model_selection import train_test_split
-Split the data 
-from sklearn.tree import DecisionTreeClassifier
-To build  and train the decision tree model 
-from sklearn.metrics import accuracy_score, classification_report,confusion_matrix,precision_score,recall_score,f1_score
-To evaluate the performance of the classification model
-import matplotlib.pyplot as plt %matplotlib inline
-Create plots
-from sklearn.feature_selection import SelectKBest
-feature selection method that selects the top k features based on a specified score function
-from sklearn.feature_selection import f_classif
-f_classif is a score function used for classification tasks
-from sklearn.model_selection import GridSearchCV
-hyperparameter tuning using cross-validation
-from sklearn.metrics import mean_squared_error
-To get the average squared difference between the predicted values and the actual values
-from sklearn.tree import plot_tree
-visual representation of the decision tree model
-from sklearn.model_selection import cross_val_score
-for performing cross-validation to evaluate the model's performance
-from sklearn.model_selection import learning_curve
-helps visual overfitting or underfitting of the models performance
+import numpy as np:Numerical computations
+import pandas as pd:Provides dataframe 
+import seaborn as sns:Create plots
+from sklearn.model_selection import train_test_split: Split the data 
+from sklearn.tree import DecisionTreeClassifier: To build  and train the decision tree model 
+from sklearn.metrics import accuracy_score, classification_report,confusion_matrix,precision_score,recall_score,f1_score: To evaluate the performance of the classification model
+import matplotlib.pyplot as plt %matplotlib inline: Create plots
+from sklearn.feature_selection import SelectKBest: feature selection method that selects the top k features based on a specified score function
+from sklearn.feature_selection import f_classif:f_classif is a score function used for classification tasks
+from sklearn.model_selection import GridSearchCV: hyperparameter tuning using cross-validation
+from sklearn.metrics import mean_squared_error: To get the average squared difference between the predicted values and the actual values
+from sklearn.tree import plot_tree: visual representation of the decision tree model
+from sklearn.model_selection import cross_val_score: for performing cross-validation to evaluate the model's performance
+from sklearn.model_selection import learning_curve: helps visual overfitting or underfitting of the models performance
 
 Part III: Data Preparation
 
